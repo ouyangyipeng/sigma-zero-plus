@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# Data files
+sigma-zero-adversarial-attack/data/
+sigma-zero-adversarial-attack/results/
+sigma-zero-adversarial-attack/models/
+
+# Large files
+*.pth
+*.ckpt
+*.bin
+*.gz
+
+# LaTeX build artifacts
+mypaper/*.aux
+mypaper/*.bbl
+mypaper/*.blg
+mypaper/*.log
+mypaper/*.out
+mypaper/*.toc
+mypaper/*.lof
+mypaper/*.lot
+mypaper/*.fls
+mypaper/*.fdb_latexmk
+mypaper/*.synctex.gz
+mypaper/main.pdf
+mypaper/algorithms/*.log
+mypaper/algorithms/*.dtx
+mypaper/algorithms/*.ins
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Conda
+*.yml.bak
