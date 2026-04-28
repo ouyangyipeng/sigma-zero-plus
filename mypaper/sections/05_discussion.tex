@@ -1,0 +1,45 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Why SSIM Outperforms L$\infty$ on MNIST}
+
+Our results show that SSIM-based constraints consistently outperform L$\infty$ constraints on MNIST. This observation can be explained by three factors:
+
+\begin{enumerate}
+    \item \textbf{Binary nature of MNIST:} MNIST images are nearly binary (black background, white digits). Optimal perturbations tend to flip pixels between 0 and 1, making L$\infty$ naturally close to 1.0 regardless of the constraint strength.
+    \item \textbf{Structural awareness:} SSIM captures structural relationships between neighboring pixels, which is more meaningful for preserving visual quality on digit images than per-pixel magnitude bounds.
+    \item \textbf{Objective conflict:} L$\infty$ constraints conflict with the $\ell_0$ objective: bounding per-pixel magnitude forces the attack to modify more pixels to achieve the same adversarial effect, thereby increasing L0. This is evident in Table~\ref{tab:mnist_results}, where the L$\infty$ + SSIM variant has L0 = 28, significantly higher than SSIM-only (L0 = 22).
+\end{enumerate}
+
+We expect L$\infty$ constraints to be more effective on natural images (e.g., CIFAR-10, ImageNet) where pixel values are continuous and small per-pixel changes can be truly imperceptible.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+    \item \textbf{Computational overhead:} SSIM computation adds approximately 15\% overhead per iteration compared to the original $\sigma$-zero. Multi-scale SSIM adds further overhead due to multiple down-sampling operations.
+    \item \textbf{Hyperparameter tuning:} The optimal weights depend on the dataset and model. Our grid search provides guidelines but may not generalize to all settings. Practitioners should perform dataset-specific tuning.
+    \item \textbf{MNIST-specific results:} Our experiments focus on MNIST. Extension to color images (CIFAR-10, ImageNet) requires additional validation, particularly for the effectiveness of L$\infty$ constraints on natural images.
+\end{enumerate}
+
+\subsection{Future Work}
+
+\begin{enumerate}
+    \item \textbf{LPIPS loss:} Replace SSIM with Learned Perceptual Image Patch Similarity~\cite{zhang2018unreasonable} for better alignment with human perception, especially on natural images.
+    \item \textbf{Color image extension:} Evaluate on CIFAR-10 and ImageNet to validate L$\infty$ effectiveness on natural images and assess the scalability of our approach to higher-resolution inputs.
+    \item \textbf{Targeted attacks:} Extend to targeted attack scenarios where the adversary specifies the desired misclassification, which may require different trade-offs between sparsity and perceptual quality.
+    \item \textbf{Physical-world attacks:} Investigate whether perceptual constraints improve transferability to physical-world settings, where perturbations must survive environmental transformations.
+\end{enumerate}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented Perceptually-Aware $\sigma$-zero, an enhanced sparse adversarial attack that incorporates visual perception constraints into the $\sigma$-zero optimization framework. By adding SSIM loss, L$\infty$ penalty, and TV regularization---combined with an adaptive weighting scheme---our method significantly improves the imperceptibility of adversarial examples while maintaining 100\% attack success rate and achieving even sparser perturbations than the original algorithm.
+
+Our comprehensive experiments on MNIST demonstrate that:
+\begin{itemize}
+    \item SSIM improves by up to 9.6\% (0.794 $\to$ 0.870).
+    \item Median $\ell_0$-norm decreases by 22\% (23 $\to$ 18).
+    \item All variants maintain 100\% attack success rate.
+\end{itemize}
+
+The proposed method requires only 3--5 additional lines of code in the core loss computation, making it a simple yet powerful enhancement to the $\sigma$-zero algorithm. We believe this work opens new directions for designing perceptually-aware adversarial attacks that balance sparsity, effectiveness, and imperceptibility.

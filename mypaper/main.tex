@@ -1,0 +1,103 @@
+%-----------------------------------------------------------------------------
+% Perceptually-Aware Sigma-Zero: Visual Quality-Constrained Sparse Adversarial Attack
+% Using SIGPLAN Conference Template
+%-----------------------------------------------------------------------------
+
+\makeatletter
+\def\input@path{{sigplan/}{algorithms/}}
+\makeatother
+\documentclass[preprint]{sigplanconf}
+
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xcolor}
+\usepackage{subfigure}
+\usepackage{natbib}
+
+\newcommand{\cL}{{\cal L}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\z}{\mathbf{z}}
+\newcommand{\deltaVec}{\boldsymbol{\delta}}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\defeq}{\stackrel{\text{def}}{=}}
+
+\begin{document}
+
+\special{papersize=8.5in,11in}
+\setlength{\pdfpageheight}{\paperheight}
+\setlength{\pdfpagewidth}{\paperwidth}
+
+\conferenceinfo{SecAI'26}{October 2026, Salt Lake City, UT, USA}
+\copyrightyear{2026}
+\copyrightdata{978-1-4503-XXXX-X/26/10}
+\copyrightdoi{10.1145/nnnnnnn.nnnnnnn}
+
+\setcopyright{acmlicensed}
+
+\titlebanner{Preprint -- Under Review}
+\preprintfooter{Perceptually-Aware $\sigma$-zero}
+
+\title{Perceptually-Aware $\sigma$-zero: Visual Quality-Constrained Sparse Adversarial Attack}
+\subtitle{Improving Imperceptibility of $\ell_0$-norm Adversarial Examples}
+
+\authorinfo{Yipeng Ouyang\thanks{Equal contribution.}}
+           {Sun Yat-sen University}
+           {ouyyp5@mail2.sysu.edu.cn}
+\authorinfo{Hao Liu\thanks{Equal contribution.}}
+           {Sun Yat-sen University}
+           {liuh525@mail2.sysu.edu.cn}
+
+\maketitle
+
+%-----------------------------------------------------------------------------
+% Abstract
+%-----------------------------------------------------------------------------
+\input{sections/00_abstract}
+
+%-----------------------------------------------------------------------------
+% Introduction
+%-----------------------------------------------------------------------------
+\input{sections/01_introduction}
+
+%-----------------------------------------------------------------------------
+% Original Paper and Its Weakness
+%-----------------------------------------------------------------------------
+\input{sections/02_original_paper_weakness}
+
+%-----------------------------------------------------------------------------
+% Design
+%-----------------------------------------------------------------------------
+\input{sections/03_design}
+
+%-----------------------------------------------------------------------------
+% Evaluation
+%-----------------------------------------------------------------------------
+\input{sections/04_evaluation}
+
+%-----------------------------------------------------------------------------
+% Discussion
+%-----------------------------------------------------------------------------
+\input{sections/05_discussion}
+
+%-----------------------------------------------------------------------------
+% Acknowledgments
+%-----------------------------------------------------------------------------
+\acks
+
+This work was supported by [Funding Agency]. We thank the anonymous reviewers for their constructive feedback.
+
+%-----------------------------------------------------------------------------
+% References
+%-----------------------------------------------------------------------------
+\bibliographystyle{abbrvnat}
+\bibliography{references}
+
+\end{document}
