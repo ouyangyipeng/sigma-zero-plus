@@ -13,6 +13,13 @@ The original $\sigma$-zero solves the following optimization problem:
 \end{equation}
 where $\cL_{\text{adv}}$ is the difference of logits (DL) adversarial loss, and the second term approximates the $\ell_0$-norm. The algorithm employs dynamic thresholding, where a threshold $\tau$ is adaptively updated during optimization to progressively zero out small perturbation components. Gradient normalization ensures stable optimization across different scales, and cosine annealing provides a smooth learning rate schedule for convergence.
 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.48\textwidth]{figures/fig2_sigma_approximation.png}
+    \caption{The $\sigma$-zero smooth approximation function $\sigma_\sigma(x) = x^2 / (x^2 + \sigma)$ for different values of $\sigma$. As $\sigma \to 0$, the function approaches a step function (indicator of $x \neq 0$), providing a tighter approximation of the $\ell_0$-norm. Larger $\sigma$ values yield smoother approximations that facilitate gradient-based optimization but are less faithful to the original $\ell_0$ objective.}
+    \label{fig:sigma_approximation}
+\end{figure}
+
 Despite its effectiveness in minimizing the $\ell_0$-norm, we identify three critical weaknesses in the original $\sigma$-zero formulation.
 
 \paragraph{No perceptual quality constraint.} The original objective only penalizes the \emph{number} of perturbed pixels, not the \emph{magnitude} or \emph{visual impact} of each perturbation. On MNIST, where images are nearly binary, the optimal strategy under pure $\ell_0$ minimization is to flip a few pixels from 0 to 1 (or vice versa). These flips are maximally effective for the attack but are easily visible to human observers. Our reproduction experiments confirm this: the original $\sigma$-zero achieves SSIM = 0.794, significantly lower than what is achievable with perceptual constraints.
@@ -20,5 +27,12 @@ Despite its effectiveness in minimizing the $\ell_0$-norm, we identify three cri
 \paragraph{Unbounded per-pixel magnitude.} Without an $\ell_\infty$ constraint, individual pixels can be perturbed by the full dynamic range $[0, 1]$. While this does not increase the $\ell_0$ count, it creates visually salient artifacts. In our experiments, the original $\sigma$-zero consistently produces perturbations with mean $\ell_\infty \approx 1.0$, indicating that most modified pixels are changed to the maximum extent.
 
 \paragraph{No spatial coherence.} The $\ell_0$ approximation treats each pixel independently, ignoring spatial relationships. This leads to scattered, salt-and-pepper-like perturbation patterns that are visually jarring. Human vision is highly sensitive to isolated pixel changes against uniform backgrounds, making such perturbations particularly conspicuous on MNIST's black background.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.48\textwidth]{figures/fig3_visual_comparison.png}
+    \caption{Visual quality comparison between the original $\sigma$-zero and our Perceptually-Aware $\sigma$-zero. The original method produces scattered salt-and-pepper perturbations (SSIM = 0.794, L0 = 23), while our method generates more clustered, less visible perturbations (SSIM = 0.870, L0 = 18). Both achieve successful misclassification, but our adversarial example is significantly harder to detect visually.}
+    \label{fig:visual_comparison}
+\end{figure}
 
 These weaknesses motivate our proposed perceptual constraints, which we detail in the next section.
