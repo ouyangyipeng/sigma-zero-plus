@@ -3,11 +3,11 @@
 
 \subsection{Experimental Setup}
 
-We evaluate on the MNIST dataset~\cite{lecun1998mnist}, consisting of $28 \times 28$ grayscale images of handwritten digits (10 classes). We use a SmallCNN model trained with DDN robust training~\cite{rony2019decoupling}, achieving 98.5\% clean accuracy. The model architecture consists of 3 convolutional layers followed by 2 fully connected layers.
+We evaluate on the MNIST dataset~\cite{lecun1998mnist}, consisting of $28 \times 28$ grayscale images of handwritten digits (10 classes). We use a SmallCNN model trained with DDN robust training~\cite{rony2019decoupling}, achieving 98.5\% clean accuracy. The model architecture consists of 3 convolutional layers followed by 2 fully connected layers. We note that while MNIST serves as a controlled testbed, standardized benchmarks such as RobustBench~\cite{croce2021robustbench} provide more comprehensive evaluation protocols for adversarial robustness on larger-scale datasets.
 
 We use four metrics to evaluate attack quality. Attack Success Rate (ASR) measures the percentage of successfully attacked samples. The $\ell_0$-norm reports the median number of perturbed pixels across successful attacks. The $\ell_\infty$-norm measures the mean maximum per-pixel perturbation magnitude. SSIM~\cite{wang2004image} quantifies perceptual quality via the Structural Similarity Index.
 
-We compare seven variants: the original $\sigma$-zero~\cite{cina2025sigma}, $\sigma$-zero with SSIM loss only, $\sigma$-zero with L$\infty$ + SSIM, $\sigma$-zero with adaptive weighting (cosine schedule), $\sigma$-zero with multi-scale SSIM, $\sigma$-zero with TV regularization, and the full model combining all constraints.
+We compare seven variants: the original $\sigma$-zero~\cite{cina2025sigma}, $\sigma$-zero with SSIM loss only, $\sigma$-zero with L$\infty$ + SSIM, $\sigma$-zero with adaptive weighting (cosine schedule), $\sigma$-zero with multi-scale SSIM, $\sigma$-zero with TV regularization, and the full model combining all constraints. Our evaluation methodology follows best practices from prior work on adversarial robustness~\cite{athalye2018obfuscated, carlini2017towards}, ensuring that gradient-based optimization is not obfuscated and that attack success rates reflect genuine model vulnerability.
 
 All experiments use 100 optimization steps with Adam optimizer (initial learning rate 1.0, cosine annealing schedule). The $\sigma$ parameter is set to $10^{-3}$, and the initial dynamic threshold is 0.3. For SSIM computation, we use an $11 \times 11$ Gaussian window with $\sigma = 1.5$. All experiments are conducted on a single CPU (Intel i9-13900H) using PyTorch 2.0.1.
 

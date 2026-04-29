@@ -17,6 +17,8 @@
 \usepackage{xcolor}
 \usepackage{subfigure}
 \usepackage{natbib}
+\usepackage{cuted}
+\usepackage{caption}
 
 \newcommand{\cL}{{\cal L}}
 \newcommand{\R}{\mathbb{R}}
@@ -28,6 +30,23 @@
 \newcommand{\abs}[1]{\left|#1\right|}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\defeq}{\stackrel{\text{def}}{=}}
+
+\makeatletter
+\let\@oldmaketitle\@maketitle
+\renewcommand{\@maketitle}{
+    \@oldmaketitle
+    % ① 在这里微调：缩小图片与上方作者信息的距离（可修改负值大小）
+    \vspace{-4.5em} 
+    \begin{center}
+        \includegraphics[width=0.85\textwidth]{figures/fig1_sys_arc.png}
+        \captionof{figure}{System architecture of Perceptually-Aware $\sigma$-zero. The input image flows through the $\sigma$-zero optimizer (gradient-based with smooth $\ell_0$ approximation and dynamic thresholding), then passes through the perceptual constraints module ($\ell_\infty$ penalty, SSIM loss, and TV regularization with adaptive weights). The adversarial loss and perceptual losses are combined into a total loss that guides the optimization. The output is an adversarial example with improved visual quality.}
+        \label{fig:system_architecture}
+    \end{center}
+    % ② 在这里微调：控制图片与下方 Abstract 的距离
+    \vspace{1em}
+}
+\def\@copyrightspace{}
+\makeatother
 
 \begin{document}
 
@@ -56,15 +75,6 @@
            {liuh525@mail2.sysu.edu.cn}
 
 \maketitle
-
-%-----------------------------------------------------------------------------
-% Figure 1: System Architecture (full-width, before abstract, non-floating)
-%-----------------------------------------------------------------------------
-\begin{center}
-    \includegraphics[width=0.9\textwidth]{figures/fig1_sys_arc.png}
-    \par\smallskip
-    \parbox{0.9\textwidth}{\small\textbf{Figure 1:} System architecture of Perceptually-Aware $\sigma$-zero. The input image flows through the $\sigma$-zero optimizer (gradient-based with smooth $\ell_0$ approximation and dynamic thresholding), then passes through the perceptual constraints module ($\ell_\infty$ penalty, SSIM loss, and TV regularization with adaptive weights). The adversarial loss and perceptual losses are combined into a total loss that guides the optimization. The output is an adversarial example with improved visual quality.\label{fig:system_architecture}}
-\end{center}
 
 %-----------------------------------------------------------------------------
 % Abstract
@@ -106,7 +116,7 @@ This work was supported by [Funding Agency]. We thank the anonymous reviewers fo
 %-----------------------------------------------------------------------------
 % References
 %-----------------------------------------------------------------------------
-\bibliographystyle{abbrvnat}
+\bibliographystyle{plainnat}
 \bibliography{references}
 
 \end{document}

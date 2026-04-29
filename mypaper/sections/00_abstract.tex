@@ -2,29 +2,29 @@
 Sparse adversarial attacks that minimize the $\ell_0$-norm (number of perturbed pixels) have gained significant attention for their ability to generate highly targeted perturbations. The recently proposed $\sigma$-zero algorithm (Cin\`a et al., ICLR 2025) achieves state-of-the-art performance in $\ell_0$-norm optimization through a novel gradient-based approach with dynamic thresholding. However, we identify a critical limitation: the original $\sigma$-zero algorithm produces adversarial examples that are often visually detectable, as it optimizes only for sparsity without considering perceptual quality. In this paper, we propose \textbf{Perceptually-Aware $\sigma$-zero}, an enhanced variant that incorporates visual perception constraints into the optimization process. Specifically, we introduce three complementary regularizers: (1) an $\ell_\infty$-norm penalty to bound per-pixel perturbation magnitude, (2) a Structural Similarity (SSIM) loss to preserve image structure, and (3) a Total Variation (TV) regularizer to encourage spatial smoothness. Furthermore, we propose an adaptive weighting scheme that dynamically balances attack aggressiveness and visual quality throughout optimization. Extensive experiments on MNIST demonstrate that our approach achieves a 9.5\% improvement in SSIM (from 0.794 to 0.870) while maintaining 100\% attack success rate and reducing the median $\ell_0$-norm from 23 to 18 pixels. Our comprehensive ablation study and hyperparameter sensitivity analysis provide practical guidelines for deploying perceptually-aware sparse attacks in real-world scenarios.
 \end{abstract}
 
-\begin{CCSXML}
-<ccs2012>
-<concept>
-<concept_id>10010147.10010210.10010211.10010212</concept_id>
-<concept_desc>Computing methodologies~Machine learning approaches</concept_desc>
-<concept_significance>500</concept_significance>
-</concept>
-<concept>
-<concept_id>10002944.10011122.10002945</concept_id>
-<concept_desc>Security and privacy~Software security engineering</concept_desc>
-<concept_significance>500</concept_significance>
-</concept>
-<concept>
-<concept_id>10010147.10010371.10010372.10010377</concept_id>
-<concept_desc>Computing methodologies~Computer vision</concept_desc>
-<concept_significance>300</concept_significance>
-</concept>
-</ccs2012>
-\end{CCSXML}
+% \begin{CCSXML}
+% <ccs2012>
+% <concept>
+% <concept_id>10010147.10010210.10010211.10010212</concept_id>
+% <concept_desc>Computing methodologies~Machine learning approaches</concept_desc>
+% <concept_significance>500</concept_significance>
+% </concept>
+% <concept>
+% <concept_id>10002944.10011122.10002945</concept_id>
+% <concept_desc>Security and privacy~Software security engineering</concept_desc>
+% <concept_significance>500</concept_significance>
+% </concept>
+% <concept>
+% <concept_id>10010147.10010371.10010372.10010377</concept_id>
+% <concept_desc>Computing methodologies~Computer vision</concept_desc>
+% <concept_significance>300</concept_significance>
+% </concept>
+% </ccs2012>
+% \end{CCSXML}
 
-\ccsdesc[500]{Computing methodologies~Machine learning approaches}
-\ccsdesc[500]{Security and privacy~Software security engineering}
-\ccsdesc[300]{Computing methodologies~Computer vision}
+% \ccsdesc[500]{Computing methodologies~Machine learning approaches}
+% \ccsdesc[500]{Security and privacy~Software security engineering}
+% \ccsdesc[300]{Computing methodologies~Computer vision}
 
 \keywords
 Adversarial Attack, $\ell_0$-norm, Sparse Perturbation, SSIM, Visual Quality, Perceptual Loss
