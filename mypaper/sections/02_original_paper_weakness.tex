@@ -1,8 +1,6 @@
 \section{Original Paper and Its Weakness}
 \label{sec:background}
 
-\subsection{The $\sigma$-zero Algorithm}
-
 The $\sigma$-zero algorithm~\cite{cina2025sigma} was introduced as a gradient-based approach to $\ell_0$-norm adversarial attacks. The core idea is to replace the non-differentiable $\ell_0$-norm with a smooth approximation function:
 \begin{equation}
     \sigma_\sigma(x) = \frac{x^2}{x^2 + \sigma},
@@ -13,26 +11,14 @@ The original $\sigma$-zero solves the following optimization problem:
 \begin{equation}
     \min_{\deltaVec} \cL_{\text{adv}}(f(\x + \deltaVec), y) + \lambda \sum_{i} \frac{\delta_i^2}{\delta_i^2 + \sigma},
 \end{equation}
-where $\cL_{\text{adv}}$ is the difference of logits (DL) adversarial loss, and the second term approximates the $\ell_0$-norm.
+where $\cL_{\text{adv}}$ is the difference of logits (DL) adversarial loss, and the second term approximates the $\ell_0$-norm. The algorithm employs dynamic thresholding, where a threshold $\tau$ is adaptively updated during optimization to progressively zero out small perturbation components. Gradient normalization ensures stable optimization across different scales, and cosine annealing provides a smooth learning rate schedule for convergence.
 
-The algorithm employs three key mechanisms:
-\begin{itemize}
-    \item \textbf{Dynamic thresholding:} A threshold $\tau$ is adaptively updated during optimization to progressively zero out small perturbation components, enforcing sparsity.
-    \item \textbf{Gradient normalization:} Gradients are normalized to ensure stable optimization across different scales.
-    \item \textbf{Cosine annealing:} The learning rate follows a cosine schedule for smooth convergence.
-\end{itemize}
+Despite its effectiveness in minimizing the $\ell_0$-norm, we identify three critical weaknesses in the original $\sigma$-zero formulation.
 
-\subsection{Identified Weaknesses}
+\paragraph{No perceptual quality constraint.} The original objective only penalizes the \emph{number} of perturbed pixels, not the \emph{magnitude} or \emph{visual impact} of each perturbation. On MNIST, where images are nearly binary, the optimal strategy under pure $\ell_0$ minimization is to flip a few pixels from 0 to 1 (or vice versa). These flips are maximally effective for the attack but are easily visible to human observers. Our reproduction experiments confirm this: the original $\sigma$-zero achieves SSIM = 0.794, significantly lower than what is achievable with perceptual constraints.
 
-Despite its effectiveness in minimizing the $\ell_0$-norm, we identify three critical weaknesses in the original $\sigma$-zero formulation:
+\paragraph{Unbounded per-pixel magnitude.} Without an $\ell_\infty$ constraint, individual pixels can be perturbed by the full dynamic range $[0, 1]$. While this does not increase the $\ell_0$ count, it creates visually salient artifacts. In our experiments, the original $\sigma$-zero consistently produces perturbations with mean $\ell_\infty \approx 1.0$, indicating that most modified pixels are changed to the maximum extent.
 
-\paragraph{Weakness 1: No perceptual quality constraint.}
-The original objective only penalizes the \emph{number} of perturbed pixels, not the \emph{magnitude} or \emph{visual impact} of each perturbation. On MNIST, where images are nearly binary, the optimal strategy under pure $\ell_0$ minimization is to flip a few pixels from 0 to 1 (or vice versa). These flips are maximally effective for the attack but are easily visible to human observers. Our reproduction experiments confirm this: the original $\sigma$-zero achieves SSIM = 0.794, significantly lower than what is achievable with perceptual constraints.
-
-\paragraph{Weakness 2: Unbounded per-pixel magnitude.}
-Without an $\ell_\infty$ constraint, individual pixels can be perturbed by the full dynamic range $[0, 1]$. While this does not increase the $\ell_0$ count, it creates visually salient artifacts. In our experiments, the original $\sigma$-zero consistently produces perturbations with mean $\ell_\infty \approx 1.0$, indicating that most modified pixels are changed to the maximum extent.
-
-\paragraph{Weakness 3: No spatial coherence.}
-The $\ell_0$ approximation treats each pixel independently, ignoring spatial relationships. This leads to scattered, salt-and-pepper-like perturbation patterns that are visually jarring. Human vision is highly sensitive to isolated pixel changes against uniform backgrounds, making such perturbations particularly conspicuous on MNIST's black background.
+\paragraph{No spatial coherence.} The $\ell_0$ approximation treats each pixel independently, ignoring spatial relationships. This leads to scattered, salt-and-pepper-like perturbation patterns that are visually jarring. Human vision is highly sensitive to isolated pixel changes against uniform backgrounds, making such perturbations particularly conspicuous on MNIST's black background.
 
 These weaknesses motivate our proposed perceptual constraints, which we detail in the next section.

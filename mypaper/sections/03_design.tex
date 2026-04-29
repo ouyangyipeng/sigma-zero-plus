@@ -1,8 +1,6 @@
 \section{Design}
 \label{sec:method}
 
-\subsection{Overview}
-
 We propose \textbf{Perceptually-Aware $\sigma$-zero}, which extends the original $\sigma$-zero objective with three complementary visual perception constraints. The overall loss function is:
 \begin{align}
     \cL_{\text{total}} &= \cL_{\text{adv}} + \lambda_0 \cL_{\ell_0} + \lambda_{\infty} \cL_{\ell_\infty} \nonumber \\
@@ -10,8 +8,6 @@ We propose \textbf{Perceptually-Aware $\sigma$-zero}, which extends the original
     \label{eq:total_loss}
 \end{align}
 where each term is defined below.
-
-\subsection{Loss Components}
 
 \paragraph{Adversarial Loss.} We use the difference of logits (DL) loss:
 \begin{equation}
@@ -34,9 +30,7 @@ This prevents any single pixel from undergoing extreme changes.
 \begin{equation}
     \cL_{\text{SSIM}} = 1 - \text{SSIM}(\x + \deltaVec, \x),
 \end{equation}
-where SSIM is computed using a Gaussian window of size $11 \times 11$ with $\sigma = 1.5$. The SSIM index measures luminance, contrast, and structural similarity between the original and perturbed images.
-
-\paragraph{Multi-scale SSIM.} We extend SSIM to multiple scales for more comprehensive structural preservation:
+where SSIM is computed using a Gaussian window of size $11 \times 11$ with $\sigma = 1.5$. The SSIM index measures luminance, contrast, and structural similarity between the original and perturbed images. We further extend SSIM to multiple scales for more comprehensive structural preservation:
 \begin{equation}
     \cL_{\text{MS-SSIM}} = 1 - \sum_{s \in \mathcal{S}} w_s \cdot \text{SSIM}(\x^{(s)} + \deltaVec^{(s)}, \x^{(s)}),
 \end{equation}
@@ -48,21 +42,11 @@ where $\mathcal{S} = \{1.0, 0.5, 0.25\}$ are down-sampling scales with weights $
 \end{equation}
 TV regularization penalizes rapid spatial variations in the perturbation, discouraging scattered salt-and-pepper artifacts.
 
-\subsection{Adaptive Weighting Scheme}
-
-Fixed weights $\lambda_{\infty}, \lambda_{\text{SSIM}}, \lambda_{\text{TV}}$ may not be optimal throughout the optimization trajectory. Early stages benefit from aggressive attack (low constraints), while later stages should focus on refining visual quality (high constraints). We propose an adaptive weighting scheme:
+\paragraph{Adaptive Weighting Scheme.} Fixed weights $\lambda_{\infty}, \lambda_{\text{SSIM}}, \lambda_{\text{TV}}$ may not be optimal throughout the optimization trajectory. Early stages benefit from aggressive attack (low constraints), while later stages should focus on refining visual quality (high constraints). We propose an adaptive weighting scheme:
 \begin{equation}
     \lambda^{(t)} = \lambda_{\text{init}} \cdot \alpha(t),
 \end{equation}
-where $\alpha(t)$ is a scheduling function of the optimization progress. We consider three schedules:
-
-\begin{itemize}
-    \item \textbf{Linear:} $\alpha(t) = t / T$
-    \item \textbf{Cosine:} $\alpha(t) = (1 - \cos(\pi t / T)) / 2$
-    \item \textbf{Exponential:} $\alpha(t) = 1 - \exp(-3t / T)$
-\end{itemize}
-
-where $t$ is the current iteration and $T$ is the total number of iterations. The cosine schedule provides a smooth transition that we found most effective in practice.
+where $\alpha(t)$ is a scheduling function of the optimization progress. We consider three schedules: linear ($\alpha(t) = t / T$), cosine ($\alpha(t) = (1 - \cos(\pi t / T)) / 2$), and exponential ($\alpha(t) = 1 - \exp(-3t / T)$), where $t$ is the current iteration and $T$ is the total number of iterations. The cosine schedule provides a smooth transition that we found most effective in practice.
 
 \begin{figure*}[t]
     \centering
@@ -91,9 +75,7 @@ where $t$ is the current iteration and $T$ is the total number of iterations. Th
     \end{tabular}
 \end{table*}
 
-\subsection{Algorithm}
-
-The complete algorithm is summarized in Algorithm~\ref{alg:perceptual_sigmazero}. The key modifications from the original $\sigma$-zero are highlighted with \textbf{[NEW]} markers.
+\paragraph{Algorithm.} The complete algorithm is summarized in Algorithm~\ref{alg:perceptual_sigmazero}. The key modifications from the original $\sigma$-zero are highlighted with \textbf{[NEW]} markers.
 
 \begin{algorithm}[t]
     \caption{Perceptually-Aware $\sigma$-zero}
