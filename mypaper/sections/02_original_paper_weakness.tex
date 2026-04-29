@@ -13,13 +13,6 @@ The original $\sigma$-zero solves the following optimization problem:
 \end{equation}
 where $\cL_{\text{adv}}$ is the difference of logits (DL) adversarial loss, and the second term approximates the $\ell_0$-norm. The algorithm employs dynamic thresholding, where a threshold $\tau$ is adaptively updated during optimization to progressively zero out small perturbation components. Gradient normalization ensures stable optimization across different scales, and cosine annealing provides a smooth learning rate schedule for convergence.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.48\textwidth]{figures/fig2_sigma_zero.png}
-    \caption{The $\sigma$-zero smooth approximation function $\sigma_\sigma(x) = x^2 / (x^2 + \sigma)$ for different values of $\sigma$. As $\sigma \to 0$, the function approaches a step function (indicator of $x \neq 0$), providing a tighter approximation of the $\ell_0$-norm. Larger $\sigma$ values yield smoother approximations that facilitate gradient-based optimization but are less faithful to the original $\ell_0$ objective.}
-    \label{fig:sigma_approximation}
-\end{figure}
-
 Despite its effectiveness in minimizing the $\ell_0$-norm, we identify three critical weaknesses in the original $\sigma$-zero formulation.
 
 \paragraph{No perceptual quality constraint.} The original objective only penalizes the \emph{number} of perturbed pixels, not the \emph{magnitude} or \emph{visual impact} of each perturbation. On MNIST, where images are nearly binary, the optimal strategy under pure $\ell_0$ minimization is to flip a few pixels from 0 to 1 (or vice versa). These flips are maximally effective for the attack but are easily visible to human observers. Our reproduction experiments confirm this: the original $\sigma$-zero achieves SSIM = 0.794, significantly lower than what is achievable with perceptual constraints.

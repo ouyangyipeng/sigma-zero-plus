@@ -22,3 +22,10 @@ In this paper, we propose \textbf{Perceptually-Aware $\sigma$-zero}, an enhanced
     \item \textbf{Comprehensive evaluation:} We conduct extensive experiments on MNIST, demonstrating significant improvements in visual quality (SSIM +9.5\%) while maintaining 100\% attack success rate and achieving even sparser perturbations (median $\ell_0$: 23 $\to$ 18).
     \item \textbf{Ablation and sensitivity analysis:} We provide detailed analysis of each component's contribution and hyperparameter sensitivity.
 \end{enumerate}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.48\textwidth]{figures/fig2_sigma_zero.png}
+    \caption{The $\sigma$-zero smooth approximation function $\sigma_\sigma(x) = x^2 / (x^2 + \sigma)$ for different values of $\sigma$. As $\sigma \to 0$, the function approaches a step function (indicator of $x \neq 0$), providing a tighter approximation of the $\ell_0$-norm. Larger $\sigma$ values yield smoother approximations that facilitate gradient-based optimization but are less faithful to the original $\ell_0$ objective.}
+    \label{fig:sigma_approximation}
+\end{figure}
