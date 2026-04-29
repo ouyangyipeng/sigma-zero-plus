@@ -15,7 +15,7 @@ where $\cL_{\text{adv}}$ is the difference of logits (DL) adversarial loss, and 
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.48\textwidth]{figures/fig2_sigma_approximation.png}
+    \includegraphics[width=0.48\textwidth]{figures/fig2_sigma_zero.png}
     \caption{The $\sigma$-zero smooth approximation function $\sigma_\sigma(x) = x^2 / (x^2 + \sigma)$ for different values of $\sigma$. As $\sigma \to 0$, the function approaches a step function (indicator of $x \neq 0$), providing a tighter approximation of the $\ell_0$-norm. Larger $\sigma$ values yield smoother approximations that facilitate gradient-based optimization but are less faithful to the original $\ell_0$ objective.}
     \label{fig:sigma_approximation}
 \end{figure}
@@ -30,7 +30,7 @@ Despite its effectiveness in minimizing the $\ell_0$-norm, we identify three cri
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.48\textwidth]{figures/fig3_visual_comparison.png}
+    \includegraphics[width=0.48\textwidth]{figures/fig3_vis_qua.png}
     \caption{Visual quality comparison between the original $\sigma$-zero and our Perceptually-Aware $\sigma$-zero. The original method produces scattered salt-and-pepper perturbations (SSIM = 0.794, L0 = 23), while our method generates more clustered, less visible perturbations (SSIM = 0.870, L0 = 18). Both achieve successful misclassification, but our adversarial example is significantly harder to detect visually.}
     \label{fig:visual_comparison}
 \end{figure}
